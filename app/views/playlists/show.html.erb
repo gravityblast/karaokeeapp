@@ -2,7 +2,7 @@
 
 <ol>
   <% @playlist.tracks.each do |track| -%>
-    <li><%= "#{track.name} (#{track.artist})" %> <%= track.mxm_id %> <%= link_to 'X', playlist_track_path(@playlist, track), :method => :delete, :confirm => 'Are you sure?' %></li>
+    <li><%= link_to "#{track.name} (#{track.artist})", playlist_track_path(@playlist, track) %> <%= track.mxm_id %> <%= link_to 'X', playlist_track_path(@playlist, track), :method => :delete, :confirm => 'Are you sure?' %></li>
   <% end -%>
 </ol>
 

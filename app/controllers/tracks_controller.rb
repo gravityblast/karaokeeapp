@@ -1,6 +1,12 @@
 class TracksController < ApplicationController
   before_filter :find_playlist
   
+  def show
+    @track = @playlist.tracks.find(params[:id])
+    @mxm_lyrics_result = MusixMatch.get_lyrics(@track.mxm_id)
+    @mxm_lyrics = @mxm_lyrics_result.lyrics if @mxm_lyrics_result
+  end
+  
   def create
     mxm_track_result  = MusixMatch.get_track(params[:mxm_id])
     mxm_lyrics_result = MusixMatch.get_lyrics(params[:mxm_id])
