@@ -1,2 +1,19 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
+Function.prototype.bind = function(object, args) {
+  var _args = args || [];
+  var _fun = this;
+  return function() {
+    return _fun.apply(object, arguments);
+  };
+};
+
+var App = {
+  init: function() {
+  
+  },
+  
+  d: function(message) {
+    try {
+      console.debug(message);
+    } catch(error) {}
+  }
+};

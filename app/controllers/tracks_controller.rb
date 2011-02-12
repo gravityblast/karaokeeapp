@@ -19,14 +19,15 @@ class TracksController < ApplicationController
       @track.artist = mxm_track.artist_name
       if @track.save
         flash[:notice] = 'Track added successfully'
+        redirect_to playlist_track_path(@playlist, @track)
       else
         flash[:error] = 'Problem adding track'
+        redirect_to playlist_path(@playlist)
       end
     else
       flash[:error] = 'Problem adding track'
-    end
-    
-    redirect_to playlist_path(@playlist)
+      redirect_to playlist_path(@playlist)
+    end        
   end
   
   def destroy

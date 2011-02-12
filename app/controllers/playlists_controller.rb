@@ -10,7 +10,7 @@ class PlaylistsController < ApplicationController
     @playlist = current_user.playlists.build(params[:playlist])
     if @playlist.save
       flash[:notice] = 'Playlist created successfully'
-      redirect_to playlists_path
+      redirect_to playlist_path(@playlist)
     else
       flash.now[:error] = 'Problem saving the playlist'
       render :action => 'new'

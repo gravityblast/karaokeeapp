@@ -1,0 +1,20 @@
+<h1><%= @track.name %></h1>
+
+<div id="video-container">
+  <div id="video">
+    <div id="ytplayer-container"></div>        
+  </div>
+  <div class="bottom cf">
+    <p class="pagination">
+      <span class="pages"></span>
+    </p>    
+  </div>  
+</div>
+
+<div id="lyrics">
+  <%= formatted_lyrics_body(@mxm_lyrics) %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  App.VideoSearch.search("<%= @track.artist %> <%= @track.name %>");
+</script>

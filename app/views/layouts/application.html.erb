@@ -3,7 +3,9 @@
 <head>
   <title>Karaokeeapp</title>
   <%= stylesheet_link_tag 'style', 'jquery.autocomplete' %>
-  <%= javascript_include_tag 'jquery', 'rails', 'jquery.ajaxQueue', 'jquery.bgiframe.min', 'thickbox-compressed', 'jquery.autocomplete.min' %>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script> 
+  <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js" type="text/javascript"></script>
+  <%= javascript_include_tag 'rails', 'application', 'video.search', 'jquery.ajaxQueue', 'jquery.bgiframe.min', 'thickbox-compressed', 'jquery.autocomplete.min' %>
   <%= csrf_meta_tag %>
 </head>
 <body>
