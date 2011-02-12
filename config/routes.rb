@@ -5,7 +5,14 @@ Karaokeeapp::Application.routes.draw do
 
   devise_for :users
   
-  
+  resources :playlists do
+    resources :tracks do
+      collection do
+        get :search
+      end
+    end
+  end
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

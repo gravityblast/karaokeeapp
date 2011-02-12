@@ -1,0 +1,1 @@
+MusixMatch::API::Base.api_key = "81226c2ff8d06e46758d9f969815edd8"

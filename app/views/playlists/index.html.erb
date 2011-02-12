@@ -1,2 +1,11 @@
-<h1>Playlists#index</h1>
-<p>Find me in app/views/playlists/index.html.erb</p>
+<h1>My Playlists</h1>
+<ul>
+  <% @playlists.each do |playlist| -%>
+    <li><%= link_to playlist.name, playlist_path(playlist) %></li>
+  <% end -%>  
+</ul>
+
+<%= will_paginate @playlists %>
+
+
+<%= link_to "New", new_playlist_path  %>

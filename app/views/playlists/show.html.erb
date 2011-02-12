@@ -1,0 +1,19 @@
+<h1><%= @playlist.name %></h1>
+
+<ol>
+  <% @playlist.tracks.each do |track| -%>
+    <li><%= "#{track.name} (#{track.artist})" %> <%= link_to 'X', playlist_track_path(@playlist, track), :method => :delete, :confirm => 'Are you sure?' %></li>
+  <% end -%>
+</ol>
+
+
+<h3>Add Track</h3>
+<input type="text" id="track-search" />
+<script type="text/javascript" charset="utf-8">
+  $("#track-search").autocomplete("<%= search_playlist_tracks_path(@playlist) %>", {
+    
+  });
+</script>
+
+<br /><br />
+<%= link_to 'Delete playlist', playlist_path(@playlist), :method => :delete, :confirm => 'Are you sure?' %>

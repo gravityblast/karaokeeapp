@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110212201548) do
+ActiveRecord::Schema.define(:version => 20110212204841) do
 
   create_table "playlists", :force => true do |t|
     t.integer  "user_id"
@@ -20,6 +20,19 @@ ActiveRecord::Schema.define(:version => 20110212201548) do
   end
 
   add_index "playlists", ["user_id"], :name => "index_playlists_on_user_id"
+
+  create_table "tracks", :force => true do |t|
+    t.integer  "playlist_id"
+    t.integer  "mxm_id"
+    t.string   "youtube_id"
+    t.text     "lrc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "artist"
+  end
+
+  add_index "tracks", ["playlist_id"], :name => "index_tracks_on_playlist_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false

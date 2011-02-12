@@ -1,0 +1,5 @@
+<ul>
+  <% @tracks_result.each do |track| -%>
+    <li><%= "#{track.track_name} (#{track.artist_name})" %></li>
+  <% end -%>
+</ul>
