@@ -19,8 +19,9 @@ class TracksController < ApplicationController
   end
   
   def search
-    @tracks_result = MusixMatch.search_track(:q => params[:q])    
+    @tracks_result = MusixMatch.search_track(:q => params[:q])
     render :layout => false
+    # render :json => @tracks_result.track_list.to_json
   end
   
 protected

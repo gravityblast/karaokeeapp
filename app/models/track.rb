@@ -1,5 +1,5 @@
 class Track < ActiveRecord::Base
-  attr_accessible :name, :artist
+  attr_accessible :name, :artist, :mxm_id
   
   belongs_to :playlist
   

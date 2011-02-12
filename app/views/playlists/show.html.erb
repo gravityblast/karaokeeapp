@@ -2,17 +2,34 @@
 
 <ol>
   <% @playlist.tracks.each do |track| -%>
-    <li><%= "#{track.name} (#{track.artist})" %> <%= link_to 'X', playlist_track_path(@playlist, track), :method => :delete, :confirm => 'Are you sure?' %></li>
+    <li><%= "#{track.name} (#{track.artist})" %> <%= track.mxm_id %> <%= link_to 'X', playlist_track_path(@playlist, track), :method => :delete, :confirm => 'Are you sure?' %></li>
   <% end -%>
 </ol>
 
 
 <h3>Add Track</h3>
-<input type="text" id="track-search" />
+
+<% form_for :track, :url => playlist_tracks_path(@playlist) do |f| -%>
+  <input type="text" id="track-search" style="width: 300px"/>
+  <%= f.hidden_field :name %>
+  <%= f.hidden_field :artist %>
+  <%= f.hidden_field :mxm_id %>
+  <%= submit_tag "Save" %>
+<% end -%>
+
+
+
 <script type="text/javascript" charset="utf-8">
-  $("#track-search").autocomplete("<%= search_playlist_tracks_path(@playlist) %>", {
-    
+  $("#track-search").result(function(event, data, formatted) {
+    $("#track_name").val(data[0]);
+    $("#track_artist").val(data[1]);
+    $("#track_mxm_id").val(data[2]);
   });
+  $("#track-search").autocomplete("<%= search_playlist_tracks_path(@playlist) %>", {
+    formatItem: function(item) {
+      return item[0] + " " + item[1];
+    }      
+  });  
 </script>
 
 <br /><br />
