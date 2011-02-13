@@ -3,18 +3,50 @@
 <div id="video-container">
   <div id="video">
     <div id="ytplayer-container"></div>        
+    <p id="lyrics"></p>
   </div>
-  <div class="bottom cf">
+  <div class="bottom cf" style="display: none;">
     <p class="pagination">
       <span class="pages"></span>
-    </p>    
+    </p>
   </div>  
 </div>
 
-<div id="lyrics">
-  <%= formatted_lyrics_body(@mxm_lyrics) %>
-</div>
+
+<a href="#" onclick="Lyrics.play(); this.blur(); return false;">PLAY</a>
 
 <script type="text/javascript" charset="utf-8">
-  App.VideoSearch.search("<%= @track.artist %> <%= @track.name %>");
+  App.VideoSearch.init();
+  var Lyrics = {
+    currentLineIndex: -1,
+    
+    lrc: JSON.parse("<%= escape_javascript(@track.lrc.html_safe) %>"),
+    
+    play: function() {
+      App.VideoSearch.play();
+      this.interval = window.setInterval(Lyrics.timer.bind(Lyrics), 200);
+    },
+    
+    timer: function() {
+      var player_time = App.VideoSearch.getCurrentTime();
+      for (var i = 0; i < this.lrc.length; i++) {
+        if (i > this.currentLineIndex) {
+          var lyrics = this.lrc[i];
+          if (player_time > lyrics.time && lyrics.time != 0) {
+            if (this.currentLineIndex != i) {
+              this.currentLineIndex = i;
+              $("#lyrics").text(lyrics.text);
+            }
+            break;
+          }
+        }        
+      }
+    }
+  };
+  
+  <% if !@track.youtube_id.blank? -%>
+    App.VideoSearch.addEventListener("playerReady", function() {
+      App.VideoSearch.showVideo('<%= @track.youtube_id %>');
+    });    
+  <% end -%>
 </script>

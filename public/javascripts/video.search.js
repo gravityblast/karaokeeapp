@@ -2,6 +2,12 @@ App.VideoSearch = {
   listeners: {}
 };
 
+App.VideoSearch.init = function() {
+  var params = { allowScriptAccess: "always" };
+  var atts = { id: "ytplayer" };
+  swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=ytplayer", "ytplayer-container", "250", "209", "8", null, null, params, atts);
+};
+
 App.VideoSearch.addEventListener = function(eventName, callback) {
   if (!App.VideoSearch.listeners[eventName]) {
     App.VideoSearch.listeners[eventName] = [];
@@ -9,7 +15,7 @@ App.VideoSearch.addEventListener = function(eventName, callback) {
   App.VideoSearch.listeners[eventName].push(callback);
 };
 
-App.VideoSearch.onYouTubePlayerReady = function(playerId) {
+App.VideoSearch.onYouTubePlayerReady = function(playerId) {  
   App.d("youtube player ready");
   App.VideoSearch.ytPlayerId = playerId;  
   var ytplayer = document.getElementById(playerId);  
@@ -18,7 +24,32 @@ App.VideoSearch.onYouTubePlayerReady = function(playerId) {
   if (this.playing) {
     ytplayer.playVideo();
   }
+  App.VideoSearch.fireEvent("playerReady");
 };
+
+App.VideoSearch.play = function() {
+  if (App.VideoSearch.ytPlayerId) {
+    var player = document.getElementById(App.VideoSearch.ytPlayerId);
+    player.playVideo();
+  }
+};
+
+App.VideoSearch.getCurrentTime = function() {
+  if (App.VideoSearch.ytPlayerId) {
+    var player = document.getElementById(App.VideoSearch.ytPlayerId);    
+    return player.getCurrentTime();
+  } else {
+    return 0;
+  }
+};
+
+App.VideoSearch.seekToStart = function() {
+  if (App.VideoSearch.ytPlayerId) {
+    var player = document.getElementById(App.VideoSearch.ytPlayerId);
+    player.seekTo(0);
+  }  
+};
+
 
 App.VideoSearch.youtubePlayerStateChangeHandler = function(state) {  
   switch(state) {
@@ -39,10 +70,11 @@ App.VideoSearch.youtubePlayerStateChangeHandler = function(state) {
   }  
 };
 
-App.VideoSearch.fireEvent = function(eventName) {
+App.VideoSearch.fireEvent = function(eventName, params) {
+  params = params || [];
   if (App.VideoSearch.listeners[eventName] instanceof Array) {
     for (var i = 0; i < App.VideoSearch.listeners[eventName].length; i++) {
-      App.VideoSearch.listeners[eventName][i]();
+      App.VideoSearch.listeners[eventName][i](params);
     }
   } else {
     App.d(typeof App.VideoSearch.listeners[eventName]);
@@ -90,19 +122,12 @@ App.VideoSearch.showVideoAndSelectPage = function(video_id) {
 
 App.VideoSearch.showVideo = function(video_id) {
   var container = document.getElementById("ytplayer-container");
-  if (container) {
-    var params = { allowScriptAccess: "always" };
-    var atts = { id: "ytplayer" };
-    App.d("create video " + video_id);
-    swfobject.embedSWF("http://www.youtube.com/v/" + video_id + "?enablejsapi=1&playerapiid=ytplayer", "ytplayer-container", "250", "209", "8", null, null, params, atts);
-  } else {    
-    App.d("set video " + video_id);
-    var player = this.ytPlayerId ? document.getElementById(this.ytPlayerId) : null;
-    if (player) {
-      var playerFunc = this.playing ? "load" : "cue";      
-      player[playerFunc + "VideoById"](video_id);
-    }
+  App.VideoSearch.seekToStart();
+  var player = document.getElementById(App.VideoSearch.ytPlayerId);
+  if (player) {
+    player.cueVideoById(video_id);
   }
+  App.VideoSearch.fireEvent("videoLoaded", video_id);
 };
 
 App.VideoSearch.stopVideo = function(video_id) {

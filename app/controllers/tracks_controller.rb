@@ -7,6 +7,12 @@ class TracksController < ApplicationController
     @mxm_lyrics = @mxm_lyrics_result.lyrics if @mxm_lyrics_result
   end
   
+  def edit
+    @track = @playlist.tracks.find(params[:id])
+    @mxm_lyrics_result = MusixMatch.get_lyrics(@track.mxm_id)
+    @mxm_lyrics = @mxm_lyrics_result.lyrics if @mxm_lyrics_result
+  end
+  
   def create
     mxm_track_result  = MusixMatch.get_track(params[:mxm_id])
     mxm_lyrics_result = MusixMatch.get_lyrics(params[:mxm_id])
@@ -19,7 +25,7 @@ class TracksController < ApplicationController
       @track.artist = mxm_track.artist_name
       if @track.save
         flash[:notice] = 'Track added successfully'
-        redirect_to playlist_track_path(@playlist, @track)
+        redirect_to edit_playlist_track_path(@playlist, @track)
       else
         flash[:error] = 'Problem adding track'
         redirect_to playlist_path(@playlist)
@@ -40,6 +46,14 @@ class TracksController < ApplicationController
     @tracks_result = MusixMatch.search_track(:q => params[:q], :f_has_lyrics => 1)
     render :layout => false
     # render :json => @tracks_result.track_list.to_json
+  end
+  
+  def update
+    @track = @playlist.tracks.find(params[:id])
+    @track.youtube_id = params[:video_id]
+    @track.lrc = params[:lrc]
+    @track.save
+    render :nothing => true
   end
   
 protected

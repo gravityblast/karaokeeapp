@@ -1,0 +1,55 @@
+<h1><%= @track.name %></h1>
+
+<div id="video-container">
+  <div id="video">
+    <div id="ytplayer-container"></div>        
+  </div>
+  <div class="bottom cf">
+    <p class="pagination">
+      <span class="pages"></span>
+    </p>    
+  </div>  
+</div>
+
+
+<a href="#" onclick="App.VideoSearch.play(); this.blur(); return false;">PLAY</a> |
+<a href="#" onclick="reset(); this.blur(); return false;">RESET</a> |
+<a href="#" onclick="console.debug(App.Tap.dumpLRC()); this.blur(); return false;">DUMP</a>
+<button id="save">Save</button>
+<div id="lyrics">  
+  <%= formatted_lyrics_body(@mxm_lyrics) %>
+</div>
+
+<input type="hidden" id="youtube_id" />
+
+
+
+<script type="text/javascript" charset="utf-8">
+  function reset() {
+    App.Tap.reset();    
+    $("#lyrics .line").removeClass("tapped");
+    $("#lyrics .line").attr("data-lrc-time", "0");
+  }
+  App.VideoSearch.init();
+  App.VideoSearch.addEventListener("videoLoaded", function(videoId) {
+    reset();
+    $("#youtube_id").val(videoId);
+  });
+  App.VideoSearch.addEventListener("playerReady", function() {
+    App.VideoSearch.search("<%= @track.artist %> <%= @track.name %>");
+  });
+  App.Tap.init();
+  
+  $("#save").click(function() {
+    var video_id = $("#youtube_id").val();
+    var lrc = App.Tap.dumpLRC();
+    $.ajax({
+      url: '<%= playlist_track_path(@playlist, @track) %>',
+      type: 'PUT',
+      data: {
+        video_id: video_id,
+        lrc: JSON.stringify(lrc)
+      }
+    });
+  });
+</script>
