@@ -15,13 +15,12 @@
     </div>
   </div>
   <div class="right">
-    <a href="#" onclick="App.VideoSearch.play(); this.blur(); return false;">PLAY</a> |
-    <a href="#" onclick="reset(); this.blur(); return false;">RESET</a> |
-    <a href="#" onclick="console.debug(App.Tap.dumpLRC()); this.blur(); return false;">DUMP</a>
-    <button id="save">Save</button>
+    <a href="#" onclick="App.VideoSearch.play(); this.blur(); return false;">START</a>    
+    <button id="save">Save</button>    
     <div id="lyrics">  
       <%= formatted_lyrics_body(@mxm_lyrics) %>
-    </div>  
+    </div>
+    <%= link_to "PLAY", playlist_track_path(@playlist, @track) %>
   </div>  
 </div>
 

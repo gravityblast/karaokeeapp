@@ -107,18 +107,22 @@ form .error {
 
 
 /* TRACK */
-#track-show .left,
 #track-edit .left {
   width: 300px;
   float: left;
 }
 
-#track-show .right,
 #track-edit .right {
   width: 660px;
   float: right;
 }
 
-#track-show #lyrics {
-  font-size: 20px;
+#track-show {
+  text-align: center;
 }
+
+#track-show #lyrics {
+  padding: 20px;
+  font-size: 32px;
+}
+
