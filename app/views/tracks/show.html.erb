@@ -1,6 +1,6 @@
 <h1><%= @track.name %></h1>
 
-<div id="track-edit" class="cf">
+<div id="track-show" class="cf">
   <div class="left">
     <div id="video-container">
       <div id="video">
@@ -10,7 +10,11 @@
     </div>
   </div>
   <div class="right">
-    <p id="lyrics"></p>
+    <p id="lyrics">
+      <% if @track.lrc.blank? -%>
+        <p>Lrc not created yet. <%= link_to "Do it now", edit_playlist_track_path(@playlist, @track) %></p>
+      <% end -%>
+    </p>
   </div>  
 </div>
 
@@ -44,7 +48,7 @@
     }
   };
   
-  <% if !@track.youtube_id.blank? -%>
+  <% if !@track.youtube_id.blank? && !@track.lrc.blank? -%>
     App.VideoSearch.addEventListener("playerReady", function() {
       App.VideoSearch.showVideo('<%= @track.youtube_id %>');
     });    
