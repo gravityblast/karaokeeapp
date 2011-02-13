@@ -9,11 +9,20 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-  
-  <% flash.each do |k, v| %>
-    <p class="flash <%= k %>"><%= v %></p>
-  <% end -%>
-<%= yield %>
-
+  <div id="wrapper">
+    <div id="container">
+      <div id="header">
+        <span class="logo">SyncAlong</span>
+      </div>
+      <div id="content">
+        <% flash.each do |k, v| %>
+          <p class="flash <%= k %>"><%= v %></p>
+        <% end -%>
+      </div>
+      <div id="footer">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,28 +1,29 @@
 <h1><%= @track.name %></h1>
-
-<div id="video-container">
-  <div id="video">
-    <div id="ytplayer-container"></div>        
-  </div>
-  <div class="bottom cf">
-    <p class="pagination">
-      <span class="pages"></span>
-    </p>    
-  </div>  
-</div>
-
-
-<a href="#" onclick="App.VideoSearch.play(); this.blur(); return false;">PLAY</a> |
-<a href="#" onclick="reset(); this.blur(); return false;">RESET</a> |
-<a href="#" onclick="console.debug(App.Tap.dumpLRC()); this.blur(); return false;">DUMP</a>
-<button id="save">Save</button>
-<div id="lyrics">  
-  <%= formatted_lyrics_body(@mxm_lyrics) %>
-</div>
-
 <input type="hidden" id="youtube_id" />
 
-
+<div id="track-edit" class="cf">
+  <div class="left">
+    <div id="video-container">
+      <div id="video">
+        <div id="ytplayer-container"></div>        
+      </div>
+      <div class="bottom cf">
+        <p class="pagination">
+          <span class="pages"></span>
+        </p>    
+      </div>  
+    </div>
+  </div>
+  <div class="right">
+    <a href="#" onclick="App.VideoSearch.play(); this.blur(); return false;">PLAY</a> |
+    <a href="#" onclick="reset(); this.blur(); return false;">RESET</a> |
+    <a href="#" onclick="console.debug(App.Tap.dumpLRC()); this.blur(); return false;">DUMP</a>
+    <button id="save">Save</button>
+    <div id="lyrics">  
+      <%= formatted_lyrics_body(@mxm_lyrics) %>
+    </div>  
+  </div>  
+</div>
 
 <script type="text/javascript" charset="utf-8">
   function reset() {

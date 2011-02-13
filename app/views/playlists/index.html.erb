@@ -1,7 +1,7 @@
 <h1>My Playlists</h1>
 <ul>
   <% @playlists.each do |playlist| -%>
-    <li><%= link_to playlist.name, playlist_path(playlist) %></li>
+    <li><%= link_to playlist.name, playlist_path(playlist) %> <%= link_to "X", playlist_path(playlist), :method => :delete, :confirm => 'Are you sure?' %></li>
   <% end -%>  
 </ul>
 
