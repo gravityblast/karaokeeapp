@@ -20,7 +20,7 @@
   var Lyrics = {
     currentLineIndex: -1,
     
-    lrc: JSON.parse("<%= escape_javascript(@track.lrc.html_safe) %>"),
+    lrc: JSON.parse("<%= escape_javascript(@track.lrc.to_s.html_safe) %>"),
     
     play: function() {
       App.VideoSearch.play();
