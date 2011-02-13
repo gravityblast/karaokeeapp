@@ -1,19 +1,19 @@
 <h1><%= @track.name %></h1>
 
-<div id="video-container">
-  <div id="video">
-    <div id="ytplayer-container"></div>        
-    <p id="lyrics"></p>
+<div id="track-edit" class="cf">
+  <div class="left">
+    <div id="video-container">
+      <div id="video">
+        <div id="ytplayer-container"></div>        
+      </div>
+      <a href="#" onclick="Lyrics.play(); this.blur(); return false;">PLAY</a>
+    </div>
   </div>
-  <div class="bottom cf" style="display: none;">
-    <p class="pagination">
-      <span class="pages"></span>
-    </p>
+  <div class="right">
+    <p id="lyrics"></p>
   </div>  
 </div>
 
-
-<a href="#" onclick="Lyrics.play(); this.blur(); return false;">PLAY</a>
 
 <script type="text/javascript" charset="utf-8">
   App.VideoSearch.init();
